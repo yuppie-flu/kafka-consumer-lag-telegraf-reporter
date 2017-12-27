@@ -19,7 +19,7 @@ def parse_output(input_from_checker):
             columns = line.split()
 
             # Only pick the columns we are interested in
-            topic = columns[1]
+            topic = columns[0]
             metric_columns = [int(c) for c in [columns[1],columns[4]]]
 
             key_and_value_pairs = zip(OUTPUT_KEYS, [topic] + metric_columns)
@@ -32,7 +32,7 @@ def to_line_protocol(parsed_output):
     """
     Converts the parsed output to InfluxDB line protocol metrics
     """
-    return ["kafka.consumer_offset,topic={topic},partition={partition},lag={lag}"
+    return ["kafka.consumer_offset,topic={topic},partition={partition} lag={lag}"
             .format(**line) for line in parsed_output]
 
 
